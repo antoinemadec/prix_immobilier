@@ -30,7 +30,7 @@ def plot_estimate(dates, y, deg, ax, color="blue"):
 parser = argparse.ArgumentParser(description='plot euros/m2 from csv')
 parser.add_argument('csv_files', nargs='+',
                     help='csv files from https://app.dvf.etalab.gouv.fr/')
-parser.add_argument('--commission_pct', default=5, type=int,
+parser.add_argument('--commission_pct', default=0, type=int,
                     help='realtor comission in percentage')
 args = parser.parse_args()
 
@@ -49,7 +49,7 @@ for filepath in args.csv_files:
             price = int(float(price))
         except:
             continue
-        if type != "Maison":
+        if type != "Maison" or surface < 80:
             continue
         euros_per_m2 = int(price/surface) * (100 + args.commission_pct) / 100
         print(f"{date} {price}e {surface}m2 {euros_per_m2}e/m2")
